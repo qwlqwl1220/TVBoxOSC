@@ -8,10 +8,6 @@ import android.widget.Toast;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import xyz.doikki.videocontroller.component.GestureView;
-import xyz.doikki.videoplayer.player.ProgressManager;
-import xyz.doikki.videoplayer.player.VideoView;
-
 import com.github.tvbox.osc.R;
 import com.github.tvbox.osc.base.BaseActivity;
 import com.github.tvbox.osc.bean.VodInfo;
@@ -30,6 +26,10 @@ import org.greenrobot.eventbus.EventBus;
 import org.json.JSONObject;
 
 import java.util.Map;
+
+import xyz.doikki.videocontroller.component.GestureView;
+import xyz.doikki.videoplayer.player.ProgressManager;
+import xyz.doikki.videoplayer.player.VideoView;
 
 /**
  * @author pj567
@@ -304,7 +304,7 @@ public class PlayActivity extends BaseActivity {
 
         parseKey = vs.url;
         showLoading();
-        String progressKey = mVodInfo.sourceKey + mVodInfo.playFlag + mVodInfo.playIndex;
+        String progressKey = mVodInfo.sourceKey + mVodInfo.id + mVodInfo.playFlag + mVodInfo.playIndex;
         sourceViewModel.getPlay(sourceKey, mVodInfo.playFlag, progressKey, vs.url);
     }
 }

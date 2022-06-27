@@ -1,13 +1,13 @@
 package com.github.tvbox.osc.ui.adapter;
 
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.github.tvbox.osc.R;
-import com.github.tvbox.osc.api.ApiConfig;
-import com.github.tvbox.osc.bean.Movie;
 import com.github.tvbox.osc.picasso.RoundTransformation;
 import com.github.tvbox.osc.util.MD5;
 import com.squareup.picasso.Picasso;
@@ -16,26 +16,38 @@ import java.util.ArrayList;
 
 import me.jessyan.autosize.utils.AutoSizeUtils;
 
-/**
- * @author pj567
- * @date :2020/12/23
- * @description:
- */
-public class SearchAdapter extends BaseQuickAdapter<Movie.Video, BaseViewHolder> {
-    public SearchAdapter() {
-        super(R.layout.item_search, new ArrayList<>());
+public class HomeHotVodAdapter extends BaseQuickAdapter<HomeHotVodAdapter.HotVod, BaseViewHolder> {
+    public static class HotVod {
+        String name;
+        String rate;
+        String pic;
+
+        public HotVod(String name, String rate, String pic) {
+            this.name = name;
+            this.rate = rate;
+            this.pic = pic;
+        }
+
+        public String getName() {
+            return name;
+        }
+    }
+
+    public HomeHotVodAdapter() {
+        super(R.layout.item_user_hot_vod, new ArrayList<>());
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, Movie.Video item) {
-        // helper.setText(R.id.tvName, String.format("%s %s %s %s", ApiConfig.get().getSource(item.sourceKey).getName(), item.name, item.type == null ? "" : item.type, item.note == null ? "" : item.note));
-        helper.setText(R.id.tvName, item.name);
-        helper.setText(R.id.tvSite, ApiConfig.get().getSource(item.sourceKey).getName());
-        helper.setVisible(R.id.tvNote, item.note != null && !item.note.isEmpty());
-        if (item.note != null && !item.note.isEmpty()) {
-            helper.setText(R.id.tvNote, item.note);
+    protected void convert(BaseViewHolder helper, HotVod item) {
+        TextView tvRate = helper.getView(R.id.tvRate);
+        if (item.rate == null || item.rate.isEmpty()) {
+            tvRate.setVisibility(View.GONE);
+        } else {
+            tvRate.setText(item.rate);
         }
+        helper.setText(R.id.tvName, item.name);
         ImageView ivThumb = helper.getView(R.id.ivThumb);
+        //由于部分电视机使用glide报错
         if (!TextUtils.isEmpty(item.pic)) {
             Picasso.get()
                     .load(item.pic)
